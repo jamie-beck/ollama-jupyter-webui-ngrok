@@ -1,0 +1,5 @@
+ollama-data/
+.DS_Store
+.vscode/
+.env
+*.pem

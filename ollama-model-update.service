@@ -1,0 +1,14 @@
+[Unit]
+Description=Update all downloaded Ollama models
+After=docker.service
+Requires=docker.service
+
+[Service]
+User=terabit
+Type=oneshot
+ExecStart=/bin/bash -lc '/usr/bin/docker exec ollama ollama list \
+  | awk "NR>1 {print \\$1}" \
+  | xargs -r -I {} /usr/bin/docker exec ollama bash -lc "echo Updating model: {}; ollama pull {}; echo --"; echo All models updated.'
+
+[Install]
+WantedBy=multi-user.target

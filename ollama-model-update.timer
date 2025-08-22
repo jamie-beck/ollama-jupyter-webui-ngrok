@@ -1,0 +1,10 @@
+[Unit]
+Description=Ollama Model Update Timer
+
+[Timer]
+OnCalendar=*-*-* 0/12:00:00
+Persistent=true
+Unit=ollama-model-update.service
+
+[Install]
+WantedBy=timers.target
