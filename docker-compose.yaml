@@ -2,6 +2,7 @@ services:
   ollama:
     image: ollama/ollama
     container_name: ollama
+    pull_policy: always
     restart: unless-stopped
     gpus: all
     environment:
@@ -14,6 +15,7 @@ services:
       - "11434:11434"
   open-webui:
     image: ghcr.io/open-webui/open-webui:main
+    pull_policy: always
     restart: always
     volumes:
       - open-webui:/app/backend/data
@@ -31,16 +33,18 @@ services:
       - JUPYTER_TOKEN=ollama
 
   watchtower:
-      image: containrrr/watchtower
-      restart: unless-stopped
-      volumes:
-        - /var/run/docker.sock:/var/run/docker.sock
-      environment:
-        WATCHTOWER_CLEANUP: "true"
-        WATCHTOWER_POLL_INTERVAL: "600"
+    image: nickfedor/watchtower:latest
+    pull_policy: always
+    restart: unless-stopped
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      WATCHTOWER_CLEANUP: "true"
+      WATCHTOWER_POLL_INTERVAL: "600"
 
   dozzle:
     image: amir20/dozzle:latest
+    pull_policy: always
     restart: unless-stopped
     ports:
       - "9999:8080"
@@ -50,6 +54,7 @@ services:
 
   ngrok:
     image: ngrok/ngrok:latest
+    pull_policy: always
     restart: unless-stopped
     command:
       - "http"
